@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { IUser } from '@/const'
+import { AdminToken } from '@/const';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private readonly jwtService: JwtService) { }
+  constructor(private readonly jwtService: JwtService) {}
 
-    createToken(payload: IUser) {
-        return this.jwtService.sign(payload);
-    }
+  createToken(payload: AdminToken) {
+    return this.jwtService.sign(payload);
+  }
 }

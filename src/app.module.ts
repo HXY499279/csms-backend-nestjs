@@ -1,31 +1,21 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configuration } from './config';
-import { UserModule } from './modules/user'
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './modules/auth/auth.module';
+import { UserModule, AuthModule, AdminModule } from './modules';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    load: [configuration],
-  }),
-  TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    useFactory: async (configService: ConfigService) => ({
-      type: 'mysql',
-      host: configService.get('database.mysql.host'),
-      port: configService.get('database.mysql.port'),
-      username: configService.get('database.mysql.user'),
-      password: configService.get('database.mysql.pwd'),
-      database: configService.get('database.mysql.databse_name'),
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false
+  imports: [
+    ConfigModule.forRoot({
+      load: [configuration],
     }),
-    inject: [ConfigService]
-  }),
-    UserModule, AuthModule],
-
+    // 数据库连接
+    MongooseModule.forRoot('mongodb://localhost:27017/csms_mislab'),
+    AdminModule,
+    UserModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,23 +1,39 @@
-import { IsString, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsString,
+  IsNotEmpty,
+  IsPhoneNumber,
+  MinLength,
+  MaxLength,
+  IsEmpty,
+} from 'class-validator';
 
 export class UpdateUserDto {
-    @IsString()
-    @IsOptional()
-    nickName?: string;
+  @ApiProperty({ description: '用户id', example: '62c515a48b7466d933af8e3b' })
+  @IsNotEmpty({ message: '请填写用户id' })
+  _id: string;
 
-    @IsString()
-    @IsOptional()
-    password?: string;
+  @ApiProperty({ description: '密码', example: '123456' })
+  @IsNotEmpty({ message: '请填写用户密码' })
+  @IsString()
+  modifiedpassword: string;
 
-    @IsString()
-    @IsOptional()
-    description?: string;
+  // @ApiProperty({ description: '描述', example: '哈哈哈' })
+  // @IsString()
+  // @IsOptional()
+  // name?: string;
 
-    @IsString()
-    @IsOptional()
-    avatar?: string;
+  
+  // @IsString()
+  // @IsOptional()
+  // gender?: string;
 
-    @IsString()
-    @IsOptional()
-    column?: string;
+  // @IsString()
+  // @IsOptional()
+  // address?: string;
+
+  // @IsString()
+  // @IsPhoneNumber()
+  // @IsOptional()
+  // phone?: string;
 }

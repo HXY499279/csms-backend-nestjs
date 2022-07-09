@@ -1,39 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from '@/entity'
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { LoginUserDto, RegisterUserDto, UpdateUserDto } from './dto'
+import { User, UserDocument } from '@/schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { UpdateUserDto, GetUserDto, _IdDto } from './dto';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>
-    ) { }
+  constructor(
+    @InjectModel(User.name)
+    private readonly userModel: Model<UserDocument>,
+  ) {}
 
-    async findOne(email: string): Promise<any> {
-        return await this.userRepository.findOne({
-            email,
-        })
-    }
+  // 分页获取用户
+  async findAll(data: GetUserDto) {
+    const [current, pageSize] = [data.current, data.pageSize].map(Number);
+    return await this.userModel.find({}, null, {
+      skip: (current - 1) * pageSize,
+      limit: pageSize,
+    });
+  }
 
-    async check(userdto: LoginUserDto) {
-        const existUser = await this.userRepository.findOne({
-            email: userdto.email,
-            password: userdto.password
-        })
-        return Boolean(existUser)
-    }
+  // 获取单个用户
+  async findOne(data: _IdDto): Promise<any> {
+    return await this.userModel.findOne(data);
+  }
 
+  // 修改某个用户的密码
+  async updateUserPwd(data: UpdateUserDto) {
+    const { _id, modifiedpassword } = data;
+    return await this.userModel.findByIdAndUpdate(_id, {
+      userpwd: modifiedpassword,
+    });
+  }
 
-    async add(userdto: RegisterUserDto) {
-        return await this.userRepository.save(this.userRepository.create(userdto))
-    }
-
-    async modify(id: string, userdto: UpdateUserDto) {
-        return await this.userRepository.save({
-            id,
-            ...userdto
-        })
-    }
+  // 删除某个用户
+  async deleteUser(data: _IdDto) {
+    return await this.userModel.findByIdAndDelete(data._id);
+  }
 }

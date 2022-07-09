@@ -1,3 +1,3 @@
-export * from './loginUser.dto'
-export * from './registerUser.dto'
-export * from './updateUser.dto'
+export * from './updateUser.dto';
+export * from './getUser.dto';
+export * from './_id.dto';
