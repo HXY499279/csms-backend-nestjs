@@ -16,31 +16,38 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
-@Controller('user')
+@Controller('users')
 // 配置该类资源接口的标签
 @ApiTags('用户')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get('/:current/:pageSize')
+  @Get('all-users/:current/:pageSize')
   // 配置接口功能说明
   @ApiOperation({
     summary: '分页获取用户列表',
   })
   async getUser(@Param() params: GetUserDto) {
     const { current, pageSize } = params;
-    return await this.userService.findAll({ current, pageSize });
+    const total = await this.userService.getUsersCount();
+    const users = await this.userService.findAll({ current, pageSize });
+    return { users, total };
   }
 
-  @Get('/:_id')
+  @Get('/user/:_id')
   @ApiOperation({
     summary: '根据用户id获取单个用户',
   })
   async getOneUser(@Param() params: _IdDto) {
-    return await this.userService.findOne(params);
+    const user = await this.userService.findOne(params);
+    return (
+      user || {
+        msg: '用户不存在',
+      }
+    );
   }
 
-  @Put()
+  @Put('/user')
   @ApiOperation({
     summary: '修改某个用户的密码',
   })
@@ -51,7 +58,7 @@ export class UserController {
     };
   }
 
-  @Delete()
+  @Delete('/user/:_id')
   @ApiOperation({
     summary: '删除某个用户',
   })

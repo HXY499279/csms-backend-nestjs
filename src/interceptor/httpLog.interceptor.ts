@@ -23,9 +23,7 @@ export class HttpLogInterceptor<T> implements NestInterceptor<T, Response<T>> {
 
     console.log('request:');
     console.log(`[${method}] ${url} ${now}`);
-    if (Object.entries(request.body).length) {
-      console.log('body：', request.body);
-    }
+
 
     return next.handle().pipe(
       tap((res) => {
@@ -33,7 +31,7 @@ export class HttpLogInterceptor<T> implements NestInterceptor<T, Response<T>> {
         const now = dayjs().format(TIME_FORMAT_STRING);
         console.log('response:');
         console.log(`[${method}] ${url} ${now}`);
-        console.log(`${response.statusCode} ${JSON.stringify(res)}`);
+        console.log(`${response.statusCode} `);
       }),
     );
   }

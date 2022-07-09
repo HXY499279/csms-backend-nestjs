@@ -5,7 +5,7 @@ import { LoginAdminDto, RegisterAdminDto } from './dto';
 import { AuthService } from '@/modules/auth/auth.service';
 import { AdminToken } from '@/const';
 
-@Controller('admin')
+@Controller('admins')
 // 配置该类资源接口的标签
 @ApiTags('管理员')
 export class AdminController {

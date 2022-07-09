@@ -1,6 +1,6 @@
 export const configuration = () => ({
     http: {
-        port: parseInt(process.env.PORT, 10) || 3000
+        port: parseInt(process.env.PORT, 10) || 8080
     },
     auth: {
         jwt: {

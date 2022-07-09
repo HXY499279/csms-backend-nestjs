@@ -11,6 +11,11 @@ export class UserService {
     private readonly userModel: Model<UserDocument>,
   ) {}
 
+  // 获取所有用户的数量
+  async getUsersCount() {
+    return await this.userModel.find({}).count();
+  }
+
   // 分页获取用户
   async findAll(data: GetUserDto) {
     const [current, pageSize] = [data.current, data.pageSize].map(Number);
