@@ -13,6 +13,7 @@ import { CategoryService } from './category.service';
 import { GetCategoryDto, DeleteCategoryDto, CreateCategoryDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { UserOperationException } from '@/exception';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -47,7 +48,7 @@ export class CategoryController {
       categoryName,
     );
     if (category) {
-      throw new HttpException('该商品分类已经存在', 400);
+      throw new UserOperationException('该商品分类已经存在');
     }
     await this.categoryService.create(categoryName);
     const categories = await this.categoryService.findByPage({
@@ -65,7 +66,7 @@ export class CategoryController {
     const { _id, curTotal } = params;
     const category = await this.categoryService.findOneById(_id);
     if (category.total > 0) {
-      throw new HttpException('该商品分类下还有商品', 500);
+      throw new UserOperationException('该商品分类下还有商品');
     }
     await this.categoryService.deleteCategory(_id);
     const categories = await this.categoryService.findByPage({

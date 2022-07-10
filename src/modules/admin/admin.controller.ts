@@ -4,6 +4,7 @@ import { AdminService } from './admin.service';
 import { LoginAdminDto, RegisterAdminDto } from './dto';
 import { AuthService } from '@/modules/auth/auth.service';
 import { AdminToken } from '@/const';
+import { UserOperationException, UnauthorizedException } from '@/exception';
 
 @Controller('admins')
 // 配置该类资源接口的标签
@@ -22,16 +23,20 @@ export class AdminController {
   async login(@Body() admindto: LoginAdminDto) {
     const existAdmin = await this.adminService.check(admindto.adminaccount);
     if (existAdmin) {
-      const adminToken: AdminToken = {
-        _id: existAdmin._id,
-        adminaccount: existAdmin.adminaccount,
-        name: existAdmin.name,
-      };
-      return {
-        token: this.authService.createToken(adminToken),
-      };
+      const { adminpwd } = admindto;
+      if (adminpwd === existAdmin.adminpwd) {
+        const adminToken: AdminToken = {
+          _id: existAdmin._id,
+          adminaccount: existAdmin.adminaccount,
+          name: existAdmin.name,
+        };
+        return {
+          token: this.authService.createToken(adminToken),
+        };
+      }
+      throw new UnauthorizedException('密码错误');
     } else {
-      throw new HttpException('用户名不存在或密码错误', 401);
+      throw new UnauthorizedException('用户名不存在');
     }
   }
 
@@ -42,7 +47,7 @@ export class AdminController {
   async register(@Body() admindto: RegisterAdminDto) {
     const isRegistered = await this.adminService.check(admindto.adminaccount);
     if (isRegistered) {
-      throw new HttpException('该账号已被注册', 500);
+      throw new UserOperationException('该账号已被注册');
     }
     this.adminService.create(admindto);
     return {
