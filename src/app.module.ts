@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configuration } from './config';
-import { UserModule, AuthModule, AdminModule ,AdModule} from './modules';
+import { UserModule, AuthModule, AdminModule ,AdModule,CategoryModule} from './modules';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
@@ -14,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     AdminModule,
     UserModule,
     AdModule,
+    CategoryModule,
     AuthModule,
   ],
   controllers: [],

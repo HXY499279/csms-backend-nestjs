@@ -17,7 +17,7 @@ export class UserService {
   }
 
   // 分页获取用户
-  async findAll(data: GetUserDto) {
+  async findByPage(data: GetUserDto) {
     const [current, pageSize] = [data.current, data.pageSize].map(Number);
     return await this.userModel.find({}, null, {
       skip: (current - 1) * pageSize,

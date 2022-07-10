@@ -26,10 +26,10 @@ export class AdService {
       mimetype !== 'image/jpeg' &&
       mimetype !== 'image/pjpeg'
     ) {
-      new HttpException('请上传图片', 500);
+      throw new HttpException('请上传图片', 500);
     }
     if (size > 2 * 1024 * 1024) {
-      new HttpException('图片大小超过2mb', 500);
+      throw new HttpException('图片大小超过2mb', 500);
     }
     return {
       file: buffer,

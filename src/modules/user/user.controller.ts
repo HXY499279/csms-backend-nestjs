@@ -30,7 +30,7 @@ export class UserController {
   async getUser(@Param() params: GetUserDto) {
     const { current, pageSize } = params;
     const total = await this.userService.getUsersCount();
-    const users = await this.userService.findAll({ current, pageSize });
+    const users = await this.userService.findByPage({ current, pageSize });
     return { users, total };
   }
 
