@@ -3,9 +3,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateAdDto {
   @ApiProperty({ description: '文件', example: '' })
-  @IsNotEmpty({ message: '请上传文件' })
-  @IsString()
-  file: any;
+  file?: any;
 
   @ApiProperty({ description: '广告公司名', example: '长城' })
   @IsNotEmpty({ message: '请输入公司名' })
@@ -21,4 +19,16 @@ export class CreateAdDto {
   @IsNotEmpty({ message: '请输入广告分类' })
   @IsString()
   adCategory: string;
+}
+
+export class SaveCreateAdDto {
+  file: any;
+
+  adCompany: string;
+
+  adName: string;
+
+  adCategory: string;
+
+  picMimetype: string;
 }

@@ -8,12 +8,11 @@ export class UpdateAdDto {
   _id: string;
 
   @ApiProperty({ description: '文件', example: '' })
-  @IsNotEmpty({ message: '请上传文件' })
-  @IsString()
-  file: Buffer;
+  file?: any;
+}
 
-  @ApiProperty({ description: '图片类型', example: 'jpg' })
-  @IsNotEmpty({ message: '请输入图片类型' })
-  @IsString()
+export class SaveUpdateAdDto {
+  file: any;
+  _id: string;
   picMimetype: string;
 }

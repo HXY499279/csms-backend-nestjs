@@ -41,7 +41,7 @@ export class UserController {
   async getOneUser(@Param() params: _IdDto) {
     const user = await this.userService.findOne(params);
     return (
-      user || {
+      { user, msg: '获取用户成功' } || {
         msg: '用户不存在',
       }
     );

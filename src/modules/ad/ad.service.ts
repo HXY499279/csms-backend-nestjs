@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { Ad, AdDocument } from '@/schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateAdDto, UpdateAdDto } from './dto';
+import { SaveCreateAdDto, SaveUpdateAdDto } from './dto';
+import { Express } from 'express';
 
 @Injectable()
 export class AdService {
@@ -16,14 +17,34 @@ export class AdService {
     return await this.adModel.find({}, null, { sort: { _id: -1 } });
   }
 
+  // 验证图片格式和大小
+  async checkPic(file: Express.Multer.File) {
+    const { buffer, mimetype, size } = file;
+    // 判断数据类型是否符合图片标准
+    if (
+      mimetype !== 'image/png' &&
+      mimetype !== 'image/jpeg' &&
+      mimetype !== 'image/pjpeg'
+    ) {
+      new HttpException('请上传图片', 500);
+    }
+    if (size > 2 * 1024 * 1024) {
+      new HttpException('图片大小超过2mb', 500);
+    }
+    return {
+      file: buffer,
+      picMimetype: mimetype,
+    };
+  }
+
   // 新增广告
-  async createAd(data: CreateAdDto) {
+  async createAd(data: SaveCreateAdDto) {
     const createdAdmin = new this.adModel(data);
     return await createdAdmin.save();
   }
 
   // 修改广告图片
-  async updateAdPic(data: UpdateAdDto) {
+  async updateAdPic(data: SaveUpdateAdDto) {
     const { _id, file, picMimetype } = data;
     return this.adModel.findByIdAndUpdate(_id, { file, picMimetype });
   }
