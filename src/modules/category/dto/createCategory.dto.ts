@@ -11,5 +11,6 @@ export class CreateCategoryDto {
 
   @ApiProperty({ description: '当前已经获取的商品分类总数', example: '123456' })
   @IsNotEmpty({ message: '请填写当前已经获取的商品分类总数' })
-  curTotal: number | string;
+  @IsNumberString()
+  curTotal: string;
 }
