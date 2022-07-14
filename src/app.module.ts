@@ -17,7 +17,7 @@ const { host, port, databse_name } = configuration().database.mongodb;
     ConfigModule.forRoot({
       load: [configuration],
     }),
-    // 数据库连接
+    // mongodb数据库连接
     MongooseModule.forRoot(`mongodb://${host}:${port}/${databse_name}`),
     AdminModule,
     UserModule,
