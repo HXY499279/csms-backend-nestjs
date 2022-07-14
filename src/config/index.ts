@@ -9,12 +9,10 @@ export const configuration = () => ({
         }
     },
     database: {
-        mysql: {
-            host: process.env.DATABASE_HOST || '101.43.27.216',
-            port: parseInt(process.env.DATABASE_PORT, 10) || 3306,
-            pwd: '870903-pw',
-            user: 'root',
-            databse_name: 'zqj'
+        mongodb: {
+            host: process.env.DATABASE_HOST || '101.43.146.27',
+            port: parseInt(process.env.DATABASE_PORT, 10) || 27017,
+            databse_name: 'csms_mislab'
         }
     }
 });

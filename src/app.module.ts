@@ -1,8 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configuration } from './config';
-import { UserModule, AuthModule, AdminModule ,AdModule,CategoryModule} from './modules';
+import {
+  UserModule,
+  AuthModule,
+  AdminModule,
+  AdModule,
+  CategoryModule,
+} from './modules';
 import { MongooseModule } from '@nestjs/mongoose';
+
+const { host, port, databse_name } = configuration().database.mongodb;
 
 @Module({
   imports: [
@@ -10,7 +18,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       load: [configuration],
     }),
     // 数据库连接
-    MongooseModule.forRoot('mongodb://localhost:27017/csms_mislab'),
+    MongooseModule.forRoot(`mongodb://${host}:${port}/${databse_name}`),
     AdminModule,
     UserModule,
     AdModule,
