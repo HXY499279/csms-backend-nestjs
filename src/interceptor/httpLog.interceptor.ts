@@ -22,7 +22,7 @@ export class HttpLogInterceptor<T> implements NestInterceptor<T, Response<T>> {
     const method = request.method;
     const url = request.originalUrl;
 
-    console.log(`request: [${method}] ${url} ${now} ${request?.body}`);
+    console.log(`request: [${method}] ${url} ${now}`);
 
     return next.handle().pipe(
       tap((res) => {
@@ -31,6 +31,7 @@ export class HttpLogInterceptor<T> implements NestInterceptor<T, Response<T>> {
         console.log(
           `response:${response.statusCode} [${method}] ${url} ${now}`,
         );
+        console.log("  ")
       }),
     );
   }
