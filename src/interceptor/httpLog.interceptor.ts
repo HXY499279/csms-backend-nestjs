@@ -21,17 +21,15 @@ export class HttpLogInterceptor<T> implements NestInterceptor<T, Response<T>> {
     const method = request.method;
     const url = request.originalUrl;
 
-    console.log('request:');
-    console.log(`[${method}] ${url} ${now}`);
-
+    console.log(`request: [${method}] ${url} ${now} ${request?.body}`);
 
     return next.handle().pipe(
       tap((res) => {
         const response = context.switchToHttp().getResponse<Response>();
         const now = dayjs().format(TIME_FORMAT_STRING);
-        console.log('response:');
-        console.log(`[${method}] ${url} ${now}`);
-        console.log(`${response.statusCode} `);
+        console.log(
+          `response:${response.statusCode} [${method}] ${url} ${now}`,
+        );
       }),
     );
   }
