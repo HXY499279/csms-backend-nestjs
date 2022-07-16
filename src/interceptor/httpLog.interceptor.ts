@@ -10,6 +10,7 @@ import * as dayjs from 'dayjs';
 import { TIME_FORMAT_STRING } from '@/const';
 import { Response } from 'express';
 
+// http日志 用于服务器日志
 @Injectable()
 export class HttpLogInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(
