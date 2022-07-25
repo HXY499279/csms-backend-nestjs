@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Category, CategoryDocument } from '@/schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { GetCategoryDto } from './dto';
+import { GetCategoryDto, UpdateCategoryDto } from './dto';
 
 @Injectable()
 export class CategoryService {
@@ -34,6 +34,18 @@ export class CategoryService {
   // 通过商品分类id获取一个商品分类
   async findOneById(_id: string) {
     return this.categoryModel.findById(_id);
+  }
+
+  // 通过商品分类id修改一个商品分类
+  async findByIdAndUpdate(_id: string, updateDto: UpdateCategoryDto) {
+    return this.categoryModel.findByIdAndUpdate(
+      {
+        _id,
+      },
+      {
+        $inc: updateDto,
+      },
+    );
   }
 
   // 新增商品种类

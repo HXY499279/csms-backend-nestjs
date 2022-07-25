@@ -18,6 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
+import { checkPic } from '@/common';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -45,7 +46,7 @@ export class AdController {
     @Body() addto: CreateAdDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const fileParams = await this.adService.checkPic(file);
+    const fileParams = checkPic(file);
     this.adService.createAd({ ...addto, ...fileParams });
     return {
       msg: '新增广告成功',
@@ -61,7 +62,7 @@ export class AdController {
     @Body() addto: UpdateAdDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const fileParams = await this.adService.checkPic(file);
+    const fileParams = checkPic(file);
     this.adService.updateAdPic({ ...fileParams, ...addto });
     return {
       msg: '修改广告图片成功',

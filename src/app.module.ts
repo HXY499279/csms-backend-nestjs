@@ -7,6 +7,7 @@ import {
   AdminModule,
   AdModule,
   CategoryModule,
+  CommodityModule,
 } from './modules';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -24,6 +25,7 @@ const { host, port, databse_name } = configuration().database.mongodb;
     AdModule,
     CategoryModule,
     AuthModule,
+    CommodityModule,
   ],
   controllers: [],
   providers: [],
