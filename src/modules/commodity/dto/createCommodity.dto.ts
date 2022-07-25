@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsNumberString } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 import { Types } from 'mongoose';
 
 export class CreateCommodityDto {
@@ -8,22 +8,22 @@ export class CreateCommodityDto {
 
   @ApiProperty({ description: '商品成本', example: '12' })
   @IsNotEmpty({ message: '请输入商品成本' })
-  @IsNumberString()
+  @IsNumber()
   cost: number;
 
   @ApiProperty({ description: '商品现价', example: '20' })
   @IsNotEmpty({ message: '请输入商品现价' })
-  @IsNumberString()
+  @IsNumber()
   currentPrice: number;
 
   @ApiProperty({ description: '商品库存', example: '200' })
   @IsNotEmpty({ message: '请输入商品库存' })
-  @IsNumberString()
+  @IsNumber()
   inventory: number;
 
   @ApiProperty({ description: '商品警戒库存', example: '20' })
   @IsNotEmpty({ message: '请输入商品警戒库存' })
-  @IsNumberString()
+  @IsNumber()
   danger_inventory: number;
 
   @ApiProperty({ description: '商品名称', example: '葡萄酒' })

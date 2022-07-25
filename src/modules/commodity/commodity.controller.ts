@@ -109,6 +109,8 @@ export class CommodityController {
       ...fileParams,
       category_id: new ObjectId(commoditydto.category_id),
     };
+    console.log(SaveCreateCommodityDto);
+    
 
     const commodity = this.commodityService.createCommodity(
       SaveCreateCommodityDto,
