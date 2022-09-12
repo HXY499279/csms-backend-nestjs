@@ -3,3 +3,4 @@ export * from './admin.schema';
 export * from './ad.schema';
 export * from './category.schema';
 export * from './commodity.schema';
+export * from './order.schema';

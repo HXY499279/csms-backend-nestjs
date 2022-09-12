@@ -30,6 +30,13 @@ export class UserService {
     return await this.userModel.findOne(data);
   }
 
+  // 通过手机号获取单个用户
+  async findOneByPhone(phone: string) {
+    return await this.userModel.findOne({
+      phone: { $regex: new RegExp(`${phone}`, 'ig') },
+    });
+  }
+
   // 修改某个用户的密码
   async updateUserPwd(data: UpdateUserDto) {
     const { _id, modifiedpassword } = data;

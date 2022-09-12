@@ -11,7 +11,7 @@ import {
 } from './modules';
 import { MongooseModule } from '@nestjs/mongoose';
 
-const { host, port, databse_name } = configuration().database.mongodb;
+const { host, port, databse_name,user,pwd } = configuration().database.mongodb;
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ const { host, port, databse_name } = configuration().database.mongodb;
       load: [configuration],
     }),
     // mongodb数据库连接
-    MongooseModule.forRoot(`mongodb://${host}:${port}/${databse_name}`),
+    MongooseModule.forRoot(`mongodb://${user}:${pwd}@${host}:${port}/${databse_name}?authSource=admin`),
     AdminModule,
     UserModule,
     AdModule,

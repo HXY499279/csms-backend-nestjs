@@ -36,7 +36,7 @@ export class CreateCommodityDto {
   @IsString()
   sellingUnit: string;
 
-  @ApiProperty({ description: '商品分类id' })
+  @ApiProperty({ description: '商品分类id', example: '' })
   @IsNotEmpty({ message: '请输入商品分类id' })
   @IsString()
   category_id: string;

@@ -12,8 +12,8 @@ export const configuration = () => ({
         mongodb: {
             host: process.env.DATABASE_HOST || '101.43.146.27',
             port: parseInt(process.env.DATABASE_PORT, 10) || 27017,
-            pwd: '@Hxy020414',
-            user: 'admin',
+            pwd: 'hxy020414',
+            user: 'hxy',
             databse_name: 'csms_mislab'
         }
     }
